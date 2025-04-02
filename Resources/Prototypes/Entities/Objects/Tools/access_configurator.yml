@@ -92,6 +92,7 @@
   - type: AccessOverrider
     accessLevels:
     - Armory
+    - StationAi # Frontier: reordered for "Artificial Intelligence"
     - Atmospherics
     - Bar
     - Brig
@@ -104,6 +105,11 @@
     - ChiefMedicalOfficer
     - Command
     - Cryogenics
+<<<<<<< HEAD
+=======
+    - Borg # Frontier: reordered for "Cyborg"
+    - Detective # Frontier: moved down
+>>>>>>> 6f1d40cfd1b393eca0b04054f31f0328199f7002
     - EmergencyShuttleRepealAll
     - Engineering
     - External
@@ -122,6 +128,7 @@
     - Quartermaster
     - Research
     - ResearchDirector
+    - BasicSilicon # Frontier: reordered for "Robot"
     - Salvage
     - Security
     - Service

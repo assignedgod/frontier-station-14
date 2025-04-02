@@ -5,8 +5,14 @@ job-description-contractor = Fulfill any profitable contracts out on the frontie
 job-description-deputy = Catch criminals and enemies of the corporation, enforce the law, and ensure that the sector does not fall into disarray.
 job-description-nf-detective = Investigate crime scenes using forensic tools, ensure that the guilty party is found, and have a couple smokes.
 job-description-ertmailcarrier = Nothing stops the mail.
+<<<<<<< HEAD
 job-description-doc = Provide guidance and direction for shift medics and work to safeguard the health of Nanotrasen personnel. 
 job-description-mercenary = Execute the bidding of anyone- for the right price. Enjoy being unbound from the confines of the law.
+=======
+job-description-guard = Keep track of prisoners and make sure they have their basic needs.
+job-description-mail-carrier = Deliver mail. Avoid dogs.
+job-description-mercenary = Use your quick draw and sharp wits to earn your pay. Go adventuring for sport, or track and hunt down bounties.
+>>>>>>> 6f1d40cfd1b393eca0b04054f31f0328199f7002
 job-description-pilot = Pilot spaceships from point A to B, outmaneuver pirates and dodge asteroids. You are a leaf on the solar wind, let others marvel at how you soar.
 job-description-pirate = Drink grog, follow orders, swab the deck, and adhere to your Captain and your code.
 job-description-pirate-captain = Lead a crew of ne'er-do-wells across the open space and plunder, respectfully, always following the code.

@@ -84,6 +84,8 @@
       - map: [ "enum.HumanoidVisualLayers.LArm" ]
       - map: [ "enum.HumanoidVisualLayers.RLeg" ]
       - map: [ "enum.HumanoidVisualLayers.LLeg" ]
+      - map: [ "enum.HumanoidVisualLayers.UndergarmentBottom" ]
+      - map: [ "enum.HumanoidVisualLayers.UndergarmentTop" ]
       - map: [ "jumpsuit" ]
       - map: [ "enum.HumanoidVisualLayers.LHand" ]
       - map: [ "enum.HumanoidVisualLayers.RHand" ]
@@ -117,6 +119,10 @@
         state: "creampie_moth"
         visible: false
   - type: Inventory
+<<<<<<< HEAD
+=======
+    speciesId: moth 
+>>>>>>> 6f1d40cfd1b393eca0b04054f31f0328199f7002
     femaleDisplacements:
       jumpsuit:
         sizeMaps:
@@ -133,6 +139,7 @@
   - type: HumanoidAppearance
     species: Moth
   - type: Inventory
+    speciesId: moth 
     femaleDisplacements:
       jumpsuit:
         sizeMaps:

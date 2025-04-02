@@ -67,3 +67,21 @@
   id: tangy
   flavorType: Complex
   description: flavor-complex-tangy
+<<<<<<< HEAD
+=======
+
+- type: flavor
+  id: spices
+  flavorType: Complex
+  description: flavor-complex-spices
+
+- type: flavor
+  id: cinnamon
+  flavorType: Complex
+  description: flavor-complex-cinnamon
+
+- type: flavor
+  id: antiseptic
+  flavorType: Complex
+  description: flavor-complex-antiseptic
+>>>>>>> 6f1d40cfd1b393eca0b04054f31f0328199f7002
