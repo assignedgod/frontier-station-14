@@ -12,8 +12,6 @@
   - BeltMedicalEMT
   - BeltMedical
   - CraftMedicalBag
-  - CraftClothingEyesHudMedical
-  - CraftClothingEyesEyepatchHudMedical
 
 - type: latheRecipePack
   id: NFMedical

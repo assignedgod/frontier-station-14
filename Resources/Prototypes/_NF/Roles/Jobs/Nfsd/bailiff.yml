@@ -32,7 +32,8 @@
   - Armory
   - Sergeant
   - Bailiff
-  - Brigmedic
+  - Medical
+  - Chemistry
   accessGroups:
   - GeneralNfsdAccess
   special:

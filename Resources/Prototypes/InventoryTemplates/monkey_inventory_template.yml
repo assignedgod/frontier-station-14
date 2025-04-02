@@ -58,8 +58,6 @@
     whitelist:
       tags:
         - MonkeyWearable
-      components: # Frontier
-        - MonkeyWearable # Frontier
   # Frontier: wallet slot
   - name: wallet
     slotTexture: wallet

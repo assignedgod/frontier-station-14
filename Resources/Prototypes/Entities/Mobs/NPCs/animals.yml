@@ -243,7 +243,7 @@
     bloodMaxVolume: 100
   - type: EggLayer
     eggSpawn:
-    - id: FoodEggLaid # Frontier: FoodEgg<FoodEggLaid
+    - id: FoodEgg
   - type: ExaminableHunger
   - type: ReplacementAccent
     accent: chicken
@@ -253,9 +253,6 @@
     factions:
     - Passive
     - Chicken # Frontier
-  - type: HTN # Frontier
-    rootTask: # Frontier
-      task: RuminantCompound # Frontier
 
 - type: entity
   parent: MobChicken
@@ -309,7 +306,7 @@
 
 - type: entity
   id: FoodEggChickenFertilized
-  parent: FoodEggLaid # Frontier: FoodEgg<FoodEggLaid
+  parent: FoodEgg
   suffix: Fertilized, Chicken
   components:
   - type: Timer
@@ -693,7 +690,7 @@
     bloodMaxVolume: 100
   - type: EggLayer
     eggSpawn:
-    - id: FoodEggLaid # Frontier: FoodEgg<FoodEggLaid
+    - id: FoodEgg
   - type: ExaminableHunger
   - type: ReplacementAccent
     accent: duck
@@ -702,9 +699,6 @@
   - type: NpcFactionMember
     factions:
     - Passive
-  - type: HTN # Frontier
-    rootTask: # Frontier
-      task: RuminantCompound # Frontier
 
 - type: entity
   name: white duck #Quack
@@ -746,7 +740,7 @@
 
 - type: entity
   id: FoodEggDuckFertilized
-  parent: FoodEggLaid # Frontier: FoodEgg<FoodEggLaid
+  parent: FoodEgg
   suffix: Fertilized, Duck
   components:
     - type: Timer

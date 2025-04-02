@@ -328,7 +328,7 @@
         - id: JetpackNfsdFilled
         - id: ClothingShoesBootsMagNfsd # Frontier
   - type: AccessReader
-    access: [["Brigmedic"]]
+    access: [["Security"]]
 
 #Sergeant hardsuit
 - type: entity

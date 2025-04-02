@@ -20,41 +20,38 @@
     - type: AccessOverrider
       accessLevels:
       - Armory
-      # - Atmospherics # Frontier
-      # - Bar # Frontier
-      - Bailiff # Frontier
+      - Atmospherics
+      - Bar
       - Brig
-      - Brigmedic # Frontier
+      - Detective
       - Captain
-      # - Cargo # Frontier
-      # - Chapel # Frontier
-      # - Chemistry # Frontier
-      # - ChiefEngineer # Frontier
-      # - ChiefMedicalOfficer # Frontier
+      - Cargo
+      - Chapel
+      - Chemistry
+      - ChiefEngineer
+      - ChiefMedicalOfficer
       - Command
-      - Detective # Frontier - moved down
-      # - Engineering # Frontier
+      - Engineering
       - External
       - Frontier # Frontier
-      # - Hydroponics # Frontier
+      - HeadOfPersonnel
+      - HeadOfSecurity
+      - Hydroponics
       - Janitor
-      # - Kitchen # Frontier
-      # - Lawyer # Frontier
+      - Kitchen
+      - Lawyer
       - Mail # Frontier
       - Maintenance
       - Medical
       - Mercenary # Frontier
-      # - Quartermaster # Frontier
-      # - Research # Frontier
-      # - ResearchDirector # Frontier
-      # - Salvage # Frontier
+      - Quartermaster
+      - Research
+      - ResearchDirector
+      - Salvage
       - Security
-      - Sergeant # Frontier
       - Service
-      - HeadOfSecurity # Frontier: reordered for "Sheriff"
-      - HeadOfPersonnel # Frontier: reordered for "Station Representative"
       - StationTrafficController # Frontier
-      # - Theatre # Frontier
+      - Theatre
       privilegedIdSlot:
         name: id-card-console-privileged-id
         ejectSound: /Audio/Machines/id_swipe.ogg
@@ -98,7 +95,7 @@
     - Atmospherics
     - Bar
     - Brig
-    - Brigmedic # Frontier
+    - Detective
     - Captain
     - Cargo
     - Chapel
@@ -107,11 +104,12 @@
     - ChiefMedicalOfficer
     - Command
     - Cryogenics
-    - Detective # Frontier: moved down
     - EmergencyShuttleRepealAll
     - Engineering
     - External
     - Frontier # Frontier
+    - HeadOfPersonnel
+    - HeadOfSecurity
     - Hydroponics
     - Janitor
     - Kitchen
@@ -127,8 +125,6 @@
     - Salvage
     - Security
     - Service
-    - HeadOfSecurity # Frontier: reordered for "Sheriff"
-    - HeadOfPersonnel # Frontier: reordered for "Station Representative"
     - StationTrafficController # Frontier
     - Theatre
     - CentralCommand

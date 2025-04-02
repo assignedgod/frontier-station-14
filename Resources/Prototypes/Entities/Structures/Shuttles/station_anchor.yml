@@ -45,18 +45,6 @@
         - LargeMobMask
         layer:
         - WallLayer
-  # Frontier: linkable station anchors
-  - type: DeviceNetwork
-    deviceNetId: Wireless
-    receiveFrequencyId: BasicDevice
-  - type: WirelessNetworkConnection
-    range: 200
-  - type: DeviceLinkSink
-    ports:
-      - On
-      - Off
-      - Toggle
-  # End Frontier: linkable station anchors
 
 - type: entity
   id: StationAnchorIndestructible
@@ -129,5 +117,3 @@
   components:
   - type: StationAnchor
     switchedOn: false
-  - type: PowerCharge # Frontier
-    switchedOn: false # Frontier

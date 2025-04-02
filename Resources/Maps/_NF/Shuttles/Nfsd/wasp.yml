@@ -813,7 +813,7 @@ entities:
         chunkSize: 4
     - type: GasTileOverlay
     - type: RadiationGridResistance
-- proto: AirlockBrigmedicGlassLocked
+- proto: AirlockChemistryGlassLocked
   entities:
   - uid: 16
     components:

@@ -20,7 +20,6 @@
     ClothingUniformJumpskirtBH: 3
     ClothingUniformJumpsuitBHGrey: 2
     ClothingUniformJumpskirtBHGrey: 2
-    ClothingMaskBalaclavaBlack: 3
     ClothingNeckTieBH: 2
     ClothingOuterCoatBHTrench: 3
     ClothingHeadHatBH: 3
@@ -49,7 +48,6 @@
     ClothingUniformJumpskirtBH: 4294967295 # Frontier: 3<Infinite
     ClothingUniformJumpsuitBHGrey: 4294967295 # Frontier: 2<Infinite
     ClothingUniformJumpskirtBHGrey: 4294967295 # Frontier: 2<Infinite
-    ClothingMaskBalaclavaBlack: 4294967295 # Frontier: Infinite
     ClothingNeckTieBH: 4294967295 # Frontier: 2<Infinite
     ClothingOuterCoatBHTrench: 4294967295 # Frontier: 3<Infinite
     ClothingHeadHatBH: 4294967295 # Frontier: 3<Infinite

@@ -5,12 +5,6 @@
   - type: DeadDropHintVariationPass
     hintSpawnChance: 0.03
 
-- type: entity
-  id: BasicBindToStationVariationPass
-  parent: BaseVariationPass
-  components:
-  - type: BindToStationVariationPass
-
 - type: weightedRandomFillSolution
   id: NFRandomFillTrashPuddle
   fills:
