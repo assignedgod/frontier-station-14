@@ -1375,6 +1375,8 @@
       - state: equipped-breathing-gear
       - state: equipped-unshaded
         shader: unshaded
+  - type: Tag
+    tags: [] #Removes from chameleon ability
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadEVAHelmetNfsd
 

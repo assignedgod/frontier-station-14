@@ -159,6 +159,8 @@
     clothingPrototype: ClothingHeadHelmetHardsuitNfsdBronze
   - type: ExplosionResistance
     damageCoefficient: 0.5
+  - type: Tag
+    tags: [] #Removes from chameleon ability
   - type: Armor
     modifiers:
       coefficients:
@@ -232,6 +234,8 @@
   components:
   - type: Sprite
     sprite: _NF/Clothing/OuterClothing/Hardsuits/nfsd_experimental.rsi
+  - type: Tag
+    tags: [] #Removes from chameleon ability
   - type: Clothing
     sprite: _NF/Clothing/OuterClothing/Hardsuits/nfsd_experimental.rsi
   - type: ToggleableClothing
@@ -265,6 +269,8 @@
   components:
   - type: Sprite
     sprite: _NF/Clothing/OuterClothing/Hardsuits/nfsd_combat.rsi
+  - type: Tag
+    tags: [] #Removes from chameleon ability
   - type: Clothing
     sprite: _NF/Clothing/OuterClothing/Hardsuits/nfsd_combat.rsi
   - type: ToggleableClothing
@@ -293,6 +299,8 @@
   components:
   - type: Sprite
     sprite: _NF/Clothing/OuterClothing/Hardsuits/nfsd_command.rsi
+  - type: Tag
+    tags: [] #Removes from chameleon ability
   - type: Clothing
     sprite: _NF/Clothing/OuterClothing/Hardsuits/nfsd_command.rsi
   - type: ToggleableClothing
@@ -405,3 +413,44 @@
   - type: ClothingSpeedModifier
     walkModifier: 0.85
     sprintModifier: 0.75
+
+- type: entity
+  parent: ClothingOuterHardsuitBaseNF
+  id: ClothingOuterHardsuitPirateChameleon # stats are equal to a merc suit with a chameleon interface
+  name: mercenary hardsuit
+  description: A special suit that protects from the danger of space, employed by mercenary forces. Not certified to be blunderbuss-proof.
+  suffix: Chameleon
+  components:
+  - type: Tag
+    tags: [] # ignore "WhitelistChameleon" tag
+  - type: ChameleonClothing
+    slot: [outerClothing]
+    default: ClothingOuterHardsuitMercenary
+  - type: Sprite
+    sprite: _NF/Clothing/OuterClothing/Hardsuits/mercenary.rsi
+  - type: Clothing
+    sprite: _NF/Clothing/OuterClothing/Hardsuits/mercenary.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.5
+    lowPressureMultiplier: 1000
+  - type: ExplosionResistance
+    damageCoefficient: 0.6
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.75
+        Slash: 0.75
+        Piercing: 0.75
+        Heat: 0.8
+        Radiation: 0.6
+        Caustic: 0.8
+  - type: ClothingSpeedModifier
+    walkModifier: 0.9
+    sprintModifier: 0.8
+  - type: UserInterface
+    interfaces:
+      enum.ChameleonUiKey.Key:
+        type: ChameleonBoundUserInterface
+  - type: HeldSpeedModifier
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitPirateChameleon

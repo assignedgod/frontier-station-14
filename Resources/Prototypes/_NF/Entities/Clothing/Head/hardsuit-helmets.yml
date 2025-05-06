@@ -107,6 +107,8 @@
     sprite: _NF/Clothing/Head/Hardsuits/nfsd.rsi
   - type: PointLight
     color: "#ffeead"
+  - type: Tag
+    tags: [] #Removes from chameleon ability from all nfsd hardsuit helmets
   - type: Armor
     modifiers:
       coefficients:
@@ -300,3 +302,37 @@
         Slash: 0.9
         Piercing: 0.9
         Heat: 0.9
+
+- type: entity
+  parent: [NFClothingHeadClearEVAHelmetBase, ClothingHeadSuitWithLightBase] #Allows for a light and doesn't make you bald
+  id: ClothingHeadHelmetHardsuitPirateChameleon
+  categories: [ HideSpawnMenu ]
+  name: mercenary hardsuit helmet
+  description: Lightly armored hardsuit helmet for mercenary needs.
+  components:
+  - type: Tag
+    tags: [HelmetEVA] # ignore "WhitelistChameleon" tag
+  - type: BreathMask
+  - type: Sprite
+    sprite: _NF/Clothing/Head/Hardsuits/mercenary.rsi
+  - type: Clothing
+    sprite: _NF/Clothing/Head/Hardsuits/mercenary.rsi
+  - type: PointLight
+    color: "#FFD1A3"
+  - type: ChameleonClothing
+    slot: [HEAD]
+    default: ClothingHeadHatPirate  #if you set it to a hardsuit helmet as a default sprite the chameleon menu stops working
+  - type: PressureProtection
+    highPressureMultiplier: 0.525
+    lowPressureMultiplier: 10000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Heat: 0.9
+  - type: UserInterface
+    interfaces:
+      enum.ChameleonUiKey.Key:
+        type: ChameleonBoundUserInterface

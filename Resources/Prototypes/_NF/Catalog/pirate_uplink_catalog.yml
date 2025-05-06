@@ -453,3 +453,22 @@
         - NFPirateCaptain
   categories:
   - UplinkPirateUtility
+
+- type: listing
+  id: UplinkPirateHardsuitChameleon
+  name:  uplink-pirate-chameleon-suit-name
+  description: uplink-pirate-chameleon-suit-desc
+  productEntity: ClothingOuterHardsuitPirateChameleon
+  icon: { sprite: Clothing/OuterClothing/Hardsuits/pirateeva.rsi, state: icon }
+  cost:
+    Doubloon: 4
+  categories:
+    - UplinkPirateHardsuits
+  conditions:
+    - !type:StoreWhitelistCondition
+      whitelist:
+        tags:
+          - PirateUplink
+    - !type:BuyerJobCondition
+      whitelist:
+        - NFPirateCaptain
