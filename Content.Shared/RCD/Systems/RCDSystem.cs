@@ -6,13 +6,13 @@ using Content.Shared.Construction;
 using Content.Shared.Database;
 using Content.Shared.DoAfter;
 using Content.Shared.Examine;
-using Content.Shared.Hands.Components;
+using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Interaction;
 using Content.Shared.Maps;
 using Content.Shared.Physics;
 using Content.Shared.Popups;
 using Content.Shared.RCD.Components;
-using Content.Shared._NF.Shipyard.Components; // Frontier
+using Content.Shared._NF.GridAccess; // Frontier
 using Content.Shared.Tag;
 using Content.Shared.Tiles;
 using Robust.Shared.Audio.Systems;
@@ -38,6 +38,7 @@ public sealed class RCDSystem : EntitySystem
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly SharedChargesSystem _sharedCharges = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
+    [Dependency] private readonly SharedHandsSystem _hands = default!;
     [Dependency] private readonly SharedInteractionSystem _interaction = default!;
     [Dependency] private readonly SharedPopupSystem _popup = default!;
     [Dependency] private readonly TurfSystem _turf = default!;
@@ -66,7 +67,6 @@ public sealed class RCDSystem : EntitySystem
         SubscribeLocalEvent<RCDComponent, DoAfterAttemptEvent<RCDDoAfterEvent>>(OnDoAfterAttempt);
         SubscribeLocalEvent<RCDComponent, RCDSystemMessage>(OnRCDSystemMessage);
         SubscribeNetworkEvent<RCDConstructionGhostRotationEvent>(OnRCDconstructionGhostRotationEvent);
-        SubscribeLocalEvent<IdCardComponent, AfterInteractEvent>(OnIdCardSwipeHappened); // Frontier
     }
 
     #region Event handling
@@ -123,60 +123,13 @@ public sealed class RCDSystem : EntitySystem
         args.PushMarkup(msg);
     }
 
-    /**
-     * Frontier - ability to swipe rcd for authorizations to build on specific grids
-     */
-    private void OnIdCardSwipeHappened(EntityUid uid, IdCardComponent comp, ref AfterInteractEvent args)
-    {
-        if (args.Handled)
-            return;
-
-        if (args.Target is not { Valid: true } target || !args.CanReach)
-            return;
-
-        var rcdEntityUid = target;
-
-        // Is this id card interacting with a shipyard RCD? If not, ignore it.
-        if (!TryComp<RCDComponent>(rcdEntityUid, out var rcdComponent) || !rcdComponent.IsShipyardRCD)
-            return;
-
-        // RCD found, we're handling this event.
-        args.Handled = true;
-
-        // If the id card has no registered ship we cant continue.
-        if (!TryComp<ShuttleDeedComponent>(uid, out var shuttleDeedComponent))
-        {
-            _popup.PopupClient(Loc.GetString("rcd-component-missing-id-deed"),
-                uid, args.User, PopupType.Medium);
-            _audio.PlayLocal(comp.ErrorSound, rcdEntityUid, args.User);
-            return;
-        }
-
-        // Swiping it again removes the authorization on it.
-        if (rcdComponent.LinkedShuttleUid == shuttleDeedComponent.ShuttleUid)
-        {
-            _popup.PopupClient(Loc.GetString("rcd-component-id-card-removed"),
-                uid, args.User, PopupType.Medium);
-            _audio.PlayLocal(comp.SwipeSound, rcdEntityUid, args.User);
-            rcdComponent.LinkedShuttleUid = null;
-        }
-        else // Transfering or setting a new ID card
-        {
-            _popup.PopupClient(Loc.GetString("rcd-component-id-card-accepted"),
-                uid, args.User, PopupType.Medium);
-            _audio.PlayLocal(comp.InsertSound, rcdEntityUid, args.User);
-            rcdComponent.LinkedShuttleUid = shuttleDeedComponent.ShuttleUid;
-        }
-
-        Dirty(rcdEntityUid, rcdComponent);
-    }
-
     private void OnAfterInteract(EntityUid uid, RCDComponent component, AfterInteractEvent args)
     {
         if (args.Handled || !args.CanReach)
             return;
 
         var user = args.User;
+        var used = args.Used; // Frontier
         var location = args.ClickLocation;
         var prototype = _protoManager.Index(component.ProtoId);
 
@@ -197,8 +150,27 @@ public sealed class RCDSystem : EntitySystem
         if (!IsRCDOperationStillValid(uid, component, gridUid.Value, mapGrid, tile, position, args.Target, args.User))
             return;
 
-        if (!IsAuthorized(gridUid, uid, component, args)) // Frontier: shipyard RCD
-            return; // Frontier
+        // Frontier: grid-access restrictions
+        // Frontier - Remove all RCD use on outpost.
+        if (TryComp<ProtectedGridComponent>(gridUid.Value, out var prot) && prot.PreventRCDUse)
+        {
+            _popup.PopupClient(Loc.GetString("rcd-component-use-blocked"), used, user);
+            return;
+        }
+
+        // Frontier - Grid access restriction
+        if (TryComp<GridAccessComponent>(args.Used, out var gridAccessComponent))
+        {
+            if (!GridAccessSystem.IsAuthorized(gridUid.Value, gridAccessComponent, out var popupMessage))
+            {
+                if (popupMessage != null)
+                {
+                    _popup.PopupClient(Loc.GetString("rcd-component-" + popupMessage), used, user);
+                }
+                return;
+            }
+        }
+        // End Frontier: grid-access restrictions
 
         if (!_net.IsServer)
             return;
@@ -230,7 +202,7 @@ public sealed class RCDSystem : EntitySystem
                 else
                 {
                     var deconstructedTile = _mapSystem.GetTileRef(gridUid.Value, mapGrid, location);
-                    var protoName = !deconstructedTile.IsSpace() ? _deconstructTileProto : _deconstructLatticeProto;
+                    var protoName = !_turf.IsSpace(deconstructedTile) ? _deconstructTileProto : _deconstructLatticeProto;
 
                     if (_protoManager.TryIndex(protoName, out var deconProto))
                     {
@@ -260,7 +232,7 @@ public sealed class RCDSystem : EntitySystem
 
         // Try to start the do after
         var effect = Spawn(effectPrototype, location);
-        var ev = new RCDDoAfterEvent(GetNetCoordinates(location), component.ConstructionDirection, component.ProtoId, cost, EntityManager.GetNetEntity(effect));
+        var ev = new RCDDoAfterEvent(GetNetCoordinates(location), component.ConstructionDirection, component.ProtoId, cost, GetNetEntity(effect));
 
         var doAfterArgs = new DoAfterArgs(EntityManager, user, delay, ev, uid, target: args.Target, used: uid)
         {
@@ -277,43 +249,6 @@ public sealed class RCDSystem : EntitySystem
         if (!_doAfter.TryStartDoAfter(doAfterArgs))
             QueueDel(effect);
     }
-
-    // Frontier: grid-bound RCD
-    /// <summary>
-    /// Stops RCD functions if there is a protected grid component on it, and adds shipyard rcd limitations.
-    /// </summary>
-    private bool IsAuthorized(EntityUid? gridId, EntityUid uid, RCDComponent comp, AfterInteractEvent args)
-    {
-        if (gridId is not {} gridUid)
-            return true;
-
-        var mapGrid = Comp<MapGridComponent>(gridId.Value);
-
-        // Frontier - Remove all RCD use on outpost.
-        if (TryComp<ProtectedGridComponent>(gridUid, out var prot) && prot.PreventRCDUse)
-        {
-            _popup.PopupClient(Loc.GetString("rcd-component-use-blocked"), uid, args.User);
-            return false;
-        }
-
-        // Frontier - LinkedShuttleUid requirements to use Shipyard RCD.
-        if (comp.IsShipyardRCD)
-        {
-            if (comp.LinkedShuttleUid == null)
-            {
-                _popup.PopupClient(Loc.GetString("rcd-component-no-id-swiped"), uid, args.User);
-                return false;
-            }
-            if (comp.LinkedShuttleUid != gridUid)
-            {
-                _popup.PopupClient(Loc.GetString("rcd-component-can-only-build-authorized-ship"), uid, args.User);
-                return false;
-            }
-        }
-
-        return true;
-    }
-    // End Frontier: grid-bound RCD
 
     private void OnDoAfterAttempt(EntityUid uid, RCDComponent component, DoAfterAttemptEvent<RCDDoAfterEvent> args)
     {
@@ -352,7 +287,7 @@ public sealed class RCDSystem : EntitySystem
         {
             // Delete the effect entity if the do-after was cancelled (server-side only)
             if (_net.IsServer)
-                QueueDel(EntityManager.GetEntity(args.Effect));
+                QueueDel(GetEntity(args.Effect));
             return;
         }
 
@@ -388,11 +323,10 @@ public sealed class RCDSystem : EntitySystem
         var uid = GetEntity(ev.NetEntity);
 
         // Determine if player that send the message is carrying the specified RCD in their active hand
-        if (session.SenderSession.AttachedEntity == null)
+        if (session.SenderSession.AttachedEntity is not { } player)
             return;
 
-        if (!TryComp<HandsComponent>(session.SenderSession.AttachedEntity, out var hands) ||
-            uid != hands.ActiveHand?.HeldEntity)
+        if (_hands.GetActiveItem(player) != uid)
             return;
 
         if (!TryComp<RCDComponent>(uid, out var rcd))
@@ -475,7 +409,7 @@ public sealed class RCDSystem : EntitySystem
         }
 
         // Check rule: Must place on subfloor
-        if (prototype.ConstructionRules.Contains(RcdConstructionRule.MustBuildOnSubfloor) && !tile.Tile.GetContentTileDefinition().IsSubFloor)
+        if (prototype.ConstructionRules.Contains(RcdConstructionRule.MustBuildOnSubfloor) && !_turf.GetContentTileDefinition(tile).IsSubFloor)
         {
             if (popMsgs)
                 _popup.PopupClient(Loc.GetString("rcd-component-must-build-on-subfloor-message"), uid, user);
@@ -487,7 +421,7 @@ public sealed class RCDSystem : EntitySystem
         if (prototype.Mode == RcdMode.ConstructTile)
         {
             // Check rule: Tile placement is valid
-            if (!_floors.CanPlaceTile(gridUid, mapGrid, null, out var reason)) // Frontier: add null
+            if (!_floors.CanPlaceTile(gridUid, mapGrid, tile.GridIndices, out var reason))
             {
                 if (popMsgs)
                     _popup.PopupClient(reason, uid, user);
@@ -496,7 +430,7 @@ public sealed class RCDSystem : EntitySystem
             }
 
             // Check rule: Tiles can't be identical
-            if (tile.Tile.GetContentTileDefinition().ID == prototype.Prototype)
+            if (_turf.GetContentTileDefinition(tile).ID == prototype.Prototype)
             {
                 if (popMsgs)
                     _popup.PopupClient(Loc.GetString("rcd-component-cannot-build-identical-tile"), uid, user);
@@ -579,7 +513,7 @@ public sealed class RCDSystem : EntitySystem
             }
 
             // The tile cannot be destroyed
-            var tileDef = (ContentTileDefinition) _tileDefMan[tile.Tile.TypeId];
+            var tileDef = _turf.GetContentTileDefinition(tile);
 
             if (tileDef.Indestructible)
             {
@@ -651,7 +585,7 @@ public sealed class RCDSystem : EntitySystem
                 if (target == null)
                 {
                     // Deconstruct tile (either converts the tile to lattice, or removes lattice)
-                    var tileDef = (tile.Tile.GetContentTileDefinition().ID != "Lattice") ? new Tile(_tileDefMan["Lattice"].TileId) : Tile.Empty;
+                    var tileDef = (_turf.GetContentTileDefinition(tile).ID != "Lattice") ? new Tile(_tileDefMan["Lattice"].TileId) : Tile.Empty;
                     _mapSystem.SetTile(gridUid, mapGrid, position, tileDef);
                     _adminLogger.Add(LogType.RCD, LogImpact.High, $"{ToPrettyString(user):user} used RCD to set grid: {gridUid} tile: {position} open to space");
                 }

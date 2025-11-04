@@ -1,4 +1,22 @@
 - type: entity
+  id: CargoTechFabCircuitboardNF
+  parent: BaseMachineCircuitboard
+  name: cargo techfab machine board
+  description: A machine printed circuit board for a cargo techfab.
+  components:
+    - type: Sprite
+      state: supply
+    - type: MachineBoard
+      prototype: CargoTechFabNF
+      requirements:
+        MatterBin: 2
+        Manipulator: 2
+      tagRequirements:
+        GlassBeaker:
+          amount: 2
+          defaultPrototype: Beaker
+
+- type: entity
   id: ShredderMachineCircuitboard
   parent: BaseMachineCircuitboard
   name: shredder machine board
@@ -101,7 +119,8 @@
         Manipulator: 3
       stackRequirements:
         Steel: 10
-    - type: BindToStationExemption # Frontier - we exempt this machine from binding to grids because the intention is for it to have that ability
+    - type: BindToStation
+      enabled: false # should be draggable between stations
 
 - type: entity
   id: GaslockFrameMachineCircuitboard
@@ -115,7 +134,24 @@
       prototype: GaslockFrame
       stackRequirements:
         Steel: 10
-    - type: BindToStationExemption # Frontier - we exempt this machine from binding to grids because the intention is for it to have that ability
+    - type: BindToStation
+      enabled: false # should be draggable between stations
+
+- type: entity
+  id: OreProcessorCivilianCircuitboard
+  parent: BaseMachineCircuitboard
+  name: civilian ore processor machine board
+  description: A machine printed circuit board for a civilian ore processor.
+  components:
+    - type: Sprite
+      state: engineering
+    - type: MachineBoard
+      prototype: OreProcessorCivilian
+      requirements: 
+        MatterBin: 1
+        Manipulator: 3 
+      stackRequirements:
+        Glass: 1
 
 # TechFab
 - type: entity
@@ -129,6 +165,25 @@
       state: nfsd
     - type: MachineBoard
       prototype: NfsdTechFab
+
+- type: entity
+  id: PirateTechFabCircuitboardNF
+  parent: BaseMachineCircuitboard
+  name: pirate techfab machine board
+  description: A machine printed circuit board for a pirate techfab.
+  components:
+    - type: Sprite
+      sprite: _NF/Objects/Misc/module.rsi
+      state: pirate
+    - type: MachineBoard
+      prototype: PirateTechFab
+      requirements:
+        MatterBin: 2
+        Manipulator: 2
+      tagRequirements:
+        GlassBeaker:
+          amount: 2
+          defaultPrototype: Beaker
 
 # Thrusters
 - type: entity
@@ -325,6 +380,22 @@
       price: 40
 
 - type: entity
+  id: PortableSMESMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  name: portable SMES machine board
+  description: A machine printed circuit board for a portable SMES.
+  components:
+    - type: Sprite
+      state: engineering
+    - type: MachineBoard
+      prototype: PortableSMESEmpty
+      requirements:
+        Capacitor: 1
+        PowerCell: 4
+      stackRequirements:
+        CableHV: 10
+
+- type: entity
   id: BlueprintLithographMachineCircuitboard
   parent: BaseMachineCircuitboard
   name: blueprint lithograph machine board
@@ -420,6 +491,18 @@
   - type: MachineBoard
     prototype: UniformPrinterStaff
 
+- type: entity
+  id: PirateStitcherCircuitboard
+  parent: [UniformPrinterMachineCircuitboard, BaseC3PirateContrabandNoValue]
+  name: pirate stitcher machine board
+  description: Clearly brand new.
+  components:
+  - type: Sprite
+    sprite: _NF/Objects/Misc/module.rsi
+    state: pirate_stitcher
+  - type: MachineBoard
+    prototype: PirateStitcher
+
 # Removed from upstream definitions
 - type: entity
   id: MaterialReclaimerMachineCircuitboard
@@ -457,6 +540,23 @@
             defaultPrototype: Beaker
 
 - type: entity
+  id: ImpCoffeeMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  name: spacepresso machine board
+  description: A machine printed circuit board for a spacepresso machine.
+  components:
+    - type: Sprite
+      state: service
+    - type: MachineBoard
+      prototype: ImpCoffeeMachineEmpty
+      stackRequirements:
+        Steel: 5
+      tagRequirements:
+          GlassBeaker:
+            amount: 1
+            defaultPrototype: Beaker
+
+- type: entity
   parent: StationAnchorCircuitboard
   id: MiniStationAnchorCircuitboard
   name: mini station anchor machine board
@@ -482,3 +582,24 @@
       GlassBeaker:
         amount: 2
         defaultPrototype: Beaker
+
+- type: entity
+  id: SkrunglerMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  name: skrungler machine board
+  description: A machine printed circuit board for a skrungler.
+  components:
+  - type: Sprite
+    state: medical
+  - type: MachineBoard
+    prototype: Skrungler
+    requirements:
+      MatterBin: 2
+      Manipulator: 1
+    stackRequirements:
+      Steel: 5
+    tagRequirements:
+      Knife:
+        amount: 2
+        defaultPrototype: KitchenKnife
+        examineName: construction-insert-info-examine-name-knife

@@ -21,8 +21,7 @@ namespace Content.Shared.GameTicking
         // See ideally these would be pulled from the job definition or something.
         // But this is easier, and at least it isn't hardcoded.
         //TODO: Move these, they really belong in StationJobsSystem or a cvar.
-        [ValidatePrototypeId<JobPrototype>]
-        public const string FallbackOverflowJob = "Contractor"; // Frontier: Passenger<Contractor
+        public static readonly ProtoId<JobPrototype> FallbackOverflowJob = "Contractor"; // Frontier: Passenger<Contractor
 
         public const string FallbackOverflowJobName = "job-name-contractor"; // Frontier: job-name-passenger<job-name-contractor
 
@@ -260,6 +259,10 @@ namespace Content.Shared.GameTicking
         /// </summary>
         public ResolvedSoundSpecifier? RestartSound;
 
+        // Frontier: custom objectives
+        public string CustomObjectiveText;
+        // End Frontier
+
         public RoundEndMessageEvent(
             string gamemodeTitle,
             string roundEndText,
@@ -267,7 +270,8 @@ namespace Content.Shared.GameTicking
             int roundId,
             int playerCount,
             RoundEndPlayerInfo[] allPlayersEndInfo,
-            ResolvedSoundSpecifier? restartSound)
+            ResolvedSoundSpecifier? restartSound,
+            string customObjectiveText) // Frontier
         {
             GamemodeTitle = gamemodeTitle;
             RoundEndText = roundEndText;
@@ -276,6 +280,7 @@ namespace Content.Shared.GameTicking
             PlayerCount = playerCount;
             AllPlayersEndInfo = allPlayersEndInfo;
             RestartSound = restartSound;
+            CustomObjectiveText = customObjectiveText; // Frontier
         }
     }
 

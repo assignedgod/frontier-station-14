@@ -104,7 +104,6 @@
   - ClothingUniformJumpsuitMercenary
   - ClothingUniformJumpskirtMusician
   - ClothingUniformJumpsuitTshirtJeansPeach
-  - ClothingUniformJumpsuitChaplainPilgrimVest
   - ClothingUniformJumpskirtPinkStripedDress
   - ClothingUniformJumpsuitBartenderPurple
   - ClothingUniformJumpskirtPurpleElegantDress
@@ -194,3 +193,72 @@
   # Other
   - ClothingWalletLeatherMail
   - ClothingHeadHatStcCap
+
+- type: latheRecipePack
+  id: NFPirateClothing
+  recipes:
+  # Hats
+  - ClothingHeadHatPirate
+  - ClothingHeadHatPirateTricord
+  - ClothingHeadHatPirateLuffy
+  - ClothingHeadHatPirates
+  - ClothingHeadBandSkull
+  - ClothingHeadBandBlack
+  - ClothingHeadBandRed
+  - ClothingHeadBandBrown
+  - ClothingHeadBandGold
+  - ClothingHeadBandGrey
+  - ClothingHeadBandBlue
+  - ClothingHeadBandGreen
+  # Uniforms
+  - ClothingUniformJumpsuitPirate
+  - ClothingUniformJumpsuitPirateLuffy
+  - ClothingUniformJumpsuitPirateSlops
+  - ClothingUniformJumpskirtColorBrown
+  # Outer
+  - ClothingOuterCoatPirate
+  - ClothingOuterCoatGentle
+  - ClothingOuterCoatPirateCaptain
+  - ClothingOuterCoatVictorian
+  - ClothingOuterCoatVictorianRed
+  # Shoes
+  - ClothingShoesBootsLaceup
+  - ClothingShoesBootsPirateLuffy
+  - ClothingShoesBootsPirate
+  - ClothingShoesBootsCowboyBrown
+  - ClothingShoesBootsCowboyBlack
+  # Misc
+  - ClothingNeckCloakPirateCap
+  - PirateHandyFlag
+  - FoamCutlass
+  - ClothingWalletLeatherPirate
+  - ClothingBackpackSatchelLeather
+
+- type: latheRecipePack
+  id: NFUniformChaplainStatic
+  recipes:
+  # Hats
+  - ClothingHeadHatBishopMitre
+  - ClothingHeadHatCardinal
+  - ClothingHeadHatFez
+  - ClothingHeadHatKippah
+  - ClothingHeadHatHoodNunHood
+  - ClothingHeadHatPilgrim
+  - ClothingHeadHatPlaguedoctor
+  - ClothingHeadHatWideBrimmed
+  - ClothingHeadHatWitch
+  - ClothingHeadHatWitch1
+  - ClothingHeadHatWitchhunter
+  # Jumpsuits
+  - ClothingUniformJumpsuitChaplainPilgrimVest
+  # Coats
+  - ClothingOuterCoatBishop
+  - ClothingOuterHoodieBlack
+  - ClothingOuterCoatCardinal
+  - ClothingOuterHoodieChaplain
+  - ClothingOuterNunRobe
+  - ClothingOuterPlagueSuit
+  - ClothingOuterCoatWitchHunter
+  # Neck
+  - ClothingNeckStoleChaplain
+  - ClothingNeckScarfChaplainStole

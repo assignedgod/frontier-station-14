@@ -6,6 +6,7 @@ using Content.Shared.CCVar;
 using Content.Shared.Examine;
 using Content.Shared.Random.Helpers;
 using Content.Shared.Salvage.Expeditions;
+using Content.Shared.Shuttles.Components;
 using Robust.Shared.Audio;
 using Robust.Shared.CPUJob.JobQueues;
 using Robust.Shared.CPUJob.JobQueues.Queues;
@@ -120,6 +121,15 @@ public sealed partial class SalvageSystem
     {
         // component.Stream = _audio.Stop(component.Stream); // Frontier: moved to client
 
+        // First wipe any disks referencing us
+        var disks = AllEntityQuery<ShuttleDestinationCoordinatesComponent>();
+        while (disks.MoveNext(out var disk, out var diskComp)
+               && diskComp.Destination == uid)
+        {
+            diskComp.Destination = null;
+            Dirty(disk, diskComp);
+        }
+
         foreach (var (job, cancelToken) in _salvageJobs.ToArray())
         {
             if (job.Station == component.Station)
@@ -184,13 +194,13 @@ public sealed partial class SalvageSystem
         {
             component.NextOffer = _timing.CurTime + TimeSpan.FromSeconds(_cooldown);
             component.CooldownTime = TimeSpan.FromSeconds(_cooldown);
-            Announce(uid, Loc.GetString("salvage-expedition-mission-completed"));
+            Announce(uid, Loc.GetString("salvage-expedition-completed"));
         }
         else
         {
             component.NextOffer = _timing.CurTime + TimeSpan.FromSeconds(_failedCooldown);
             component.CooldownTime = TimeSpan.FromSeconds(_failedCooldown);
-            Announce(uid, Loc.GetString("salvage-expedition-mission-failed"));
+            Announce(uid, Loc.GetString("salvage-expedition-failed"));
         }
         // End Frontier: separate timeout/announcement for success/failures
         component.ActiveMission = 0;

@@ -41,6 +41,11 @@ shipyard = true
 [admin]
 see_own_notes = true
 
+[ic]
+random_characters = false # Frontier true<false
+random_species_weights = ""
+ssd_sleep_time = 3600
+
 # Frontier: expedition params
 [nf14.salvage]
 expedition_failed_cooldown = 10.0

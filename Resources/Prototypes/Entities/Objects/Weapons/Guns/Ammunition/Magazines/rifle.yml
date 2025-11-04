@@ -1,4 +1,3 @@
-# Empty mags
 - type: entity
   id: BaseMagazineRifle
   name: "magazine (.20 rifle)"
@@ -32,7 +31,6 @@
     zeroVisible: false
   - type: Appearance
 
-# Magazines
 - type: entity
   categories: [ HideSpawnMenu ] # Frontier
   id: MagazineRifle
@@ -43,10 +41,16 @@
     # proto: CartridgeRifle # Frontier
   - type: Sprite
     layers:
-    - state: red
+    - state: base
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      right:
+      - state: inhand-right-mag
 
 - type: entity
   categories: [ HideSpawnMenu ] # Frontier
@@ -63,6 +67,12 @@
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      right:
+      - state: inhand-right-mag
 
 - type: entity
   categories: [ HideSpawnMenu ] # Frontier
@@ -72,6 +82,24 @@
   components:
   - type: BallisticAmmoProvider
     # proto: CartridgeRifleIncendiary # Frontier
+  - type: Sprite
+    layers:
+    - state: base
+      map: ["enum.GunVisualLayers.Base"]
+    - state: mag-1
+      map: ["enum.GunVisualLayers.Mag"]
+    - state: stripe
+      color: "#ff6e52"
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#ff6e52"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#ff6e52"
 
 - type: entity
   categories: [ HideSpawnMenu ] # Frontier
@@ -83,10 +111,22 @@
     # proto: CartridgeRiflePractice # Frontier
   - type: Sprite
     layers:
-    - state: practice
+    - state: base
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
+    - state: stripe
+      color: "#dbdbdb"
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#dbdbdb"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#dbdbdb"
 
 - type: entity
   categories: [ HideSpawnMenu ] # Frontier
@@ -98,7 +138,19 @@
     # proto: CartridgeRifleUranium # Frontier
   - type: Sprite
     layers:
-    - state: uranium
+    - state: base
       map: ["enum.GunVisualLayers.Base"]
     - state: mag-1
       map: ["enum.GunVisualLayers.Mag"]
+    - state: stripe
+      color: "#00cd42"
+  - type: Item
+    inhandVisuals:
+      left:
+      - state: inhand-left-mag
+      - state: inhand-left-stripe
+        color: "#00cd42"
+      right:
+      - state: inhand-right-mag
+      - state: inhand-right-stripe
+        color: "#00cd42"

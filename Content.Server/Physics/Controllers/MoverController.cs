@@ -2,10 +2,13 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using Content.Server.Shuttles.Components;
 using Content.Server.Shuttles.Systems;
+using Content.Shared.Friction;
 using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Shuttles.Components;
 using Content.Shared.Shuttles.Systems;
+using Content.Shared.Ghost; // Frontier
+using Prometheus;
 using Robust.Shared.Physics.Components;
 using Robust.Shared.Player;
 using DroneConsoleComponent = Content.Server.Shuttles.DroneConsoleComponent;
@@ -16,6 +19,10 @@ namespace Content.Server.Physics.Controllers;
 
 public sealed class MoverController : SharedMoverController
 {
+    private static readonly Gauge ActiveMoverGauge = Metrics.CreateGauge(
+        "physics_active_mover_count",
+        "Active amount of InputMovers being processed by MoverController");
+
     [Dependency] private readonly ThrusterSystem _thruster = default!;
     [Dependency] private readonly SharedTransformSystem _xformSystem = default!;
 
@@ -57,57 +64,49 @@ public sealed class MoverController : SharedMoverController
         return true;
     }
 
+    private HashSet<EntityUid> _moverAdded = new();
+    private List<Entity<InputMoverComponent>> _movers = new();
+
+    private void InsertMover(Entity<InputMoverComponent> source)
+    {
+        if (TryComp(source, out MovementRelayTargetComponent? relay))
+        {
+            if (TryComp(relay.Source, out InputMoverComponent? relayMover))
+            {
+                InsertMover((relay.Source, relayMover));
+            }
+        }
+
+        // Already added
+        if (!_moverAdded.Add(source.Owner))
+            return;
+
+        _movers.Add(source);
+    }
+
     public override void UpdateBeforeSolve(bool prediction, float frameTime)
     {
         base.UpdateBeforeSolve(prediction, frameTime);
 
+        _moverAdded.Clear();
+        _movers.Clear();
         var inputQueryEnumerator = AllEntityQuery<InputMoverComponent>();
 
+        // Need to order mob movement so that movers don't run before their relays.
         while (inputQueryEnumerator.MoveNext(out var uid, out var mover))
         {
-            var physicsUid = uid;
+            if (IsPaused(uid) && !HasComp<GhostComponent>(uid)) // Frontier: Skip processing paused entities. Ghosts are excepted for mapping reasons
+                continue; // Frontier
 
-            // if (RelayQuery.HasComponent(uid)) // Upstream - #34015
-            //     continue; // Upstream - #34015
-
-            if (!XformQuery.TryGetComponent(uid, out var xform))
-            {
-                continue;
-            }
-
-            PhysicsComponent? body;
-            var xformMover = xform;
-
-            if (mover.ToParent && RelayQuery.HasComponent(xform.ParentUid))
-            {
-                if (!PhysicsQuery.TryGetComponent(xform.ParentUid, out body) ||
-                    !XformQuery.TryGetComponent(xform.ParentUid, out xformMover))
-                {
-                    continue;
-                }
-
-                physicsUid = xform.ParentUid;
-            }
-            else if (!PhysicsQuery.TryGetComponent(uid, out body))
-            {
-                continue;
-            }
-
-            HandleMobMovement(uid,
-                mover,
-                physicsUid,
-                body,
-                xformMover,
-                frameTime);
+            InsertMover((uid, mover));
         }
 
-        // Upstream - #34016
-        var movementRelayTargetEnumerator = AllEntityQuery<MovementRelayTargetComponent, InputMoverComponent>();
-        while (movementRelayTargetEnumerator.MoveNext(out var uid, out var relay, out var mover))
+        foreach (var mover in _movers)
         {
-            HandleRelayMovement((uid, relay, mover));
+            HandleMobMovement(mover, frameTime);
         }
-        // End Upstream - #34016
+
+        ActiveMoverGauge.Set(_movers.Count);
 
         HandleShuttleMovement(frameTime);
     }

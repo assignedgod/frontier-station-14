@@ -20,6 +20,7 @@
         Glass: 230
       chemicalComposition:
         Silicon: 20
+    - type: BindToStation # Frontier
 
 - type: entity
   parent: BaseComputerCircuitboard
@@ -225,21 +226,20 @@
 
 - type: entity
   parent: BaseComputerCircuitboard
-  id: CargoShuttleComputerCircuitboard
-  name: cargo shuttle computer board
-  description: A computer printed circuit board for a cargo shuttle computer.
-  categories: [ HideSpawnMenu ] # Frontier
+  id: SalvageJobBoardComputerCircuitboard
+  name: salvage job board computer board
+  description: A computer printed circuit board for a salvage job board computer.
   components:
-    - type: Sprite
-      state: cpu_supply
-    - type: ComputerBoard
-      prototype: ComputerCargoShuttle
+  - type: Sprite
+    state: cpu_supply
+  - type: ComputerBoard
+    prototype: ComputerSalvageJobBoard
 
 - type: entity
   parent: BaseComputerCircuitboard
   id: SalvageExpeditionsComputerCircuitboard
-  name: salvage expeditions computer board
-  description: A computer printed circuit board for a salvage expeditions computer.
+  name: expedition console board # Frontier: "salvage expeditions computer" < "expedition console"
+  description: A computer printed circuit board for an expedition console. # Frontier: "salvage expeditions computer" < "expedition console"
   components:
     - type: Sprite
       state: cpu_supply
@@ -365,7 +365,7 @@
       prototype: ComputerWallmountCrewMonitoring # Frontier
 
 - type: entity
-  parent: [BaseComputerCircuitboard, BaseC2ContrabandUnredeemable] # Frontier: BaseGrandTheftContraband<BaseC2ContrabandUnredeemable
+  parent: [BaseComputerCircuitboard, BaseC2ContrabandUnredeemable] # Frontier: BaseCommandContraband<BaseC2ContrabandUnredeemable
   id: IDComputerCircuitboard
   name: ID card computer board
   description: A computer printed circuit board for an ID card console.
@@ -397,7 +397,7 @@
       prototype: ComputerTabletopBodyScanner # Frontier
 
 - type: entity
-  parent: [BaseComputerCircuitboard, BaseC2ContrabandUnredeemable] # Frontier: BaseGrandTheftContraband<BaseC2ContrabandUnredeemable
+  parent: [BaseComputerCircuitboard, BaseC2ContrabandUnredeemable] # Frontier: BaseCommandContraband<BaseC2ContrabandUnredeemable
   id: CommsComputerCircuitboard
   name: communications computer board
   description: A computer printed circuit board for a communications console.

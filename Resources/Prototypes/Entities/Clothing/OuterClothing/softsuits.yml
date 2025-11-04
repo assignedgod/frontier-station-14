@@ -13,6 +13,7 @@
     tags:
     - SuitEVA
     - MonkeyWearable
+    - CorgiWearable
     - WhitelistChameleon
   - type: StaticPrice # Frontier
     price: 30 # Frontier
@@ -21,7 +22,7 @@
 #Syndicate EVA
 - type: entity
   parent: [ClothingOuterEVASuitBase, BaseC3SyndicateContraband, ContrabandClothing] # Frontier: added BaseC3SyndicateContraband, ContrabandClothing as parent
-  id: ClothingOuterHardsuitSyndicate # TODO: rename to ClothingOuterEVASuitSyndicate
+  id: ClothingOuterEVASuitSyndicate
   name: syndicate EVA suit
   description: "Has a tag on the back that reads: 'Totally not property of an enemy corporation, honest!'"
   components:
@@ -34,6 +35,8 @@
     - SuitEVA
     - MonkeyWearable
     - WhitelistChameleon
+  - type: StaticPrice
+    price: 1000 # Helmet is 500
 
 #Emergency EVA
 - type: entity
@@ -61,6 +64,12 @@
       toggleable-clothing: !type:ContainerSlot {}
       storagebase: !type:Container # Frontier
         ents: [] # Frontier
+  - type: Tag
+    tags:
+    - CorgiWearable
+    - ScurretWearable
+    - MonkeyWearable
+    - WhitelistChameleon
 
 #Prisoner EVA
 - type: entity
@@ -159,3 +168,7 @@
       toggleable-clothing: !type:ContainerSlot {}
       storagebase: !type:Container # Frontier
         ents: [] # Frontier
+  - type: Tag
+    tags:
+    - CorgiWearable
+    - WhitelistChameleon
